@@ -7,7 +7,6 @@
     - role: apt_update
       upgrade_type: safe
 
-
 - hosts: all # no sudo required for following task
 
   tasks:

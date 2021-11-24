@@ -1,0 +1,2 @@
+hosts.yml
+ansible.cfg # consider security risk if load from current directory

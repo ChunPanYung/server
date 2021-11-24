@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# reset fn mode on keychron keyboard c1
+echo 2 | tee /sys/module/hid_apple/parameters/fnmode
