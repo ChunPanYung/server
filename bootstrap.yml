@@ -3,21 +3,10 @@
 # command: ansible-playbook --ask-pass --ask-become-pass bootstrap.yml
 - hosts: all
   become: true
+  roles:
+    - role: apt_update
+      upgrade_type: safe
 
-  pre_tasks:
-    - name: update repo cache (debian based OS)
-      tags: always
-      apt:
-        update_cache: true
-      changed_when: false # not considered change when cache is updated
-      when: ansible_os_family == "Debian"
-
-    - name: update packages and remote unused ones
-      tags: always
-      apt:
-        upgrade: safe
-        autoremove: true
-      when: ansible_os_family == "Debian"
 
 - hosts: all # no sudo required for following task
 
