@@ -1,0 +1,10 @@
+---
+# $ ansible-playbook --ask-become-pass site.yml
+- hosts: gk41
+  become: true
+  roles:
+    - role: apt_update
+      tags: 
+        - update
+      # variables
+      upgrade_type: full
