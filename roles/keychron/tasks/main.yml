@@ -9,7 +9,7 @@
     mode: '0751'
   register: bin_keychron
 
-- debug: 
+- debug:
     var: bin_keychron.failed
 
 - name: copy service to /etc/systemd/system/
@@ -21,7 +21,7 @@
     mode: '0644'
   register: system_keychron
 
-- debug: 
+- debug:
     var: system_keychron.failed
 
 # systemctl status keychron will have failed status
@@ -29,5 +29,5 @@
 - name: starts keychron.service
   ansible.builtin.service:
     name: keychron
-    enabled: yes
+    enabled: true
   when: bin_keychron.failed == false and system_keychron.failed == false

@@ -1,5 +1,4 @@
 ---
-# $ ansible-playbook --ask-become-pass site.yml
 - hosts: gk41
   become: true
 

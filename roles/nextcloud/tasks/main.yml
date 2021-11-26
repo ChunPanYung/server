@@ -1,25 +1,41 @@
 ---
-# nextcloud/tasks
-- name: Install Docker
-  apt:
-    name: docker.io
-    state: latest
+- name: Install and enable Docker service and its libraries
+  block:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: latest
+
+    - name: Install Docker SDK for Python
+      apt:
+        name: python3-docker
+        state: latest
+
+    - name: start docker.service
+      ansible.builtin.service:
+        name: docker
+        enabled: true
+      notify: restart-docker.service
+    - name: Pull Nextcloud from Docker
+      community.docker.docker_image:
+        name: nextcloud
+        source: pull
   notify: restart-docker.service
 
-- name: Install Docker SDK for Python
-  apt:
-    name: python3-docker
-    state: latest
-  notify: restart-docker.service
+- name: Create and copy docker compose
+  vars:
+    nextcloud_path: /etc/docker/nextcloud/
 
-- name: start docker.service
-  ansible.builtin.service:
-    name: docker
-    enabled: true
-  notify: restart-docker.service
+  block:
+    - name: "Create directory for docker in {{ nextcloud_path }}"
+      file:
+        path: "{{ nextcloud_path }}"
+        state: directory
 
-- name: Pull Nextcloud from Docker
-  community.docker.docker_image:
-    name: nextcloud
-    source: pull
-  notify: restart-docker.service
+    - name: "Copy files to {{ nextcloud_path }}"
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ nextcloud_path }}"
+      loop:
+        - .env
+        - docker-compose.yml
