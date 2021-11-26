@@ -1,0 +1,25 @@
+---
+# nextcloud/tasks
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: latest
+  notify: restart-docker.service
+
+- name: Install Docker SDK for Python
+  apt:
+    name: python3-docker
+    state: latest
+  notify: restart-docker.service
+
+- name: start docker.service
+  ansible.builtin.service:
+    name: docker
+    enabled: true
+  notify: restart-docker.service
+
+- name: Pull Nextcloud from Docker
+  community.docker.docker_image:
+    name: nextcloud
+    source: pull
+  notify: restart-docker.service
