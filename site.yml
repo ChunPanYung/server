@@ -2,11 +2,20 @@
 # $ ansible-playbook --ask-become-pass site.yml
 - hosts: gk41
   become: true
+
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: "BECOME password"
+
   roles:
-    - role: apt_update
-      tags: 
-        - update
-      # variables
-      upgrade_type: full
+    - role: os_update
+      tags:
+        - always
+        - os_update
+      vars:
+        upgrade_type: full
 
     - role: keychron
+      tags: keychron
+    - role: nextcloud
+      tags: nextcloud

@@ -1,0 +1,17 @@
+---
+- name: update repo cache (debian based OS)
+  apt:
+    update_cache: true
+  changed_when: false  # not considered change when cache is updated
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: update packages and remove unused ones
+  apt:
+    upgrade: "{{ upgrade_type }}"
+    autoremove: true
+  when: ansible_os_family == "Debian"
+  register: update_info
+
+- debug:
+    var: update_info.stdout_lines
