@@ -1,0 +1,18 @@
+---
+# common/tasks
+- name: Install Micro
+  apt:
+    name: micro
+    state: latest
+
+- name: Change default editor to micro
+  lineinfile:
+    path: "{{ home_dir }}/.profile"
+    regexp: '^export EDITOR='
+    line: 'export EDITOR=/usr/bin/micro'
+
+- name: Add environmental variables
+  lineinfile:
+    path: "{{ home_dir }}/.profile"
+    regexp: '^export DOCKER='
+    line: 'export DOCKER=/etc/docker/'

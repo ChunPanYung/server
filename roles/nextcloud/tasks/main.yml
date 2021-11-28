@@ -6,10 +6,20 @@
         name: docker.io
         state: latest
 
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: latest
+
     - name: Install Docker SDK for Python
       apt:
         name: python3-docker
         state: latest
+
+    - name: Allow http and ssh port
+      community.general.ufw:
+        rule: allow
+        port: ssh
 
     - name: start docker.service
       ansible.builtin.service:
@@ -22,9 +32,10 @@
         source: pull
   notify: restart-docker.service
 
-- name: Create and copy docker compose
+- name: Setup and enable nextcloud on startup
   vars:
     nextcloud_path: /etc/docker/nextcloud/
+    systemd_service_path: /etc/systemd/system/
 
   block:
     - name: "Create directory for docker in {{ nextcloud_path }}"
@@ -39,3 +50,19 @@
       loop:
         - .env
         - docker-compose.yml
+
+    - name: "Copy files to {{ systemd_service_path }}"
+      ansible.builtin.copy:
+        src: nextcloud.service
+        dest: "{{ systemd_service_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable nextcloud.service
+      ansible.builtin.service:
+        name: nextcloud
+        enabled: true
+  notify: restart-nextcloud.service
+
+    # TODO: can't get docker-compose work -- doesn't reconize mariadb in compose file

@@ -12,3 +12,4 @@ apt install openssh-server
 systemctl enable ssh
 systemctl restart ssh
 ufw allow ssh
+ufw enable

@@ -7,10 +7,6 @@
     owner: root
     group: root
     mode: '0751'
-  register: bin_keychron
-
-- debug:
-    var: bin_keychron.failed
 
 - name: copy service to /etc/systemd/system/
   ansible.builtin.copy:
@@ -19,10 +15,6 @@
     owner: root
     group: root
     mode: '0644'
-  register: system_keychron
-
-- debug:
-    var: system_keychron.failed
 
 # systemctl status keychron will have failed status
 # if no keychron keyboard is plugged in
@@ -30,4 +22,3 @@
   ansible.builtin.service:
     name: keychron
     enabled: true
-  when: bin_keychron.failed == false and system_keychron.failed == false

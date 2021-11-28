@@ -14,6 +14,11 @@
       vars:
         upgrade_type: full
 
+    - role: common
+      tags: common
+      vars:
+        home_dir: /home/server
+
     - role: keychron
       tags: keychron
     - role: nextcloud

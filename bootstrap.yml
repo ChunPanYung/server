@@ -3,12 +3,27 @@
 # command: ansible-playbook --ask-pass --ask-become-pass bootstrap.yml
 - hosts: all
   become: true
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: "BECOME password"
+
   roles:
-    - role: apt_update
-      upgrade_type: safe
+    - role: os_update
+      vars:
+        upgrade_type: safe
 
-- hosts: all # no sudo required for following task
+  tasks:
 
+    - name: Allow http and ssh port
+      community.general.ufw:
+        rule: allow
+        port: ssh
+
+    - name: Setup ufw
+      community.general.ufw:
+        state: enabled
+
+- hosts: all  # no sudo required for following task
   tasks:
     - name: set authorized key for user, copying it from current user
       authorized_key:
