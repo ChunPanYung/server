@@ -1,5 +1,5 @@
 ---
-- hosts: gk41
+- hosts: all
   become: true
 
   vars_prompt:
@@ -16,10 +16,17 @@
 
     - role: common
       tags: common
+<<<<<<< HEAD
       vars:
         home_dir: /home/server
+=======
+
+    - role: internet
+      tags: internet
+>>>>>>> nextcloud
 
     - role: keychron
       tags: keychron
+
     - role: nextcloud
       tags: nextcloud

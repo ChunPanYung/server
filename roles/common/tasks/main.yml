@@ -16,3 +16,31 @@
     path: "{{ home_dir }}/.profile"
     regexp: '^export DOCKER='
     line: 'export DOCKER=/etc/docker/'
+<<<<<<< HEAD
+=======
+
+- name: Create directory
+  file:
+    path: "{{ home_dir }}/Source/"
+    state: directory
+
+- name: Create a self-signed certificate
+  block:
+    - name: Create directory
+      file:
+        path: "{{ home_dir }}/.ssl/"
+        state: directory
+
+    - name: Create private key (ed25519)
+      community.crypto.openssl_privatekey:
+        path: "{{ home_dir }}/.ssl/server.localhost.key"
+        type: Ed25519
+
+    - name: Create simple self-signed certificate
+      community.crypto.x509_certificate:
+        path: "{{ home_dir }}/.ssl/server.localhost.pem"
+        privatekey_path: "{{ home_dir }}/.ssl/server.localhost.key"
+        provider: selfsigned
+  # End block
+
+>>>>>>> nextcloud
