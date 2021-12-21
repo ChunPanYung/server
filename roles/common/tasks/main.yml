@@ -16,8 +16,6 @@
     path: "{{ home_dir }}/.profile"
     regexp: '^export DOCKER='
     line: 'export DOCKER=/etc/docker/'
-<<<<<<< HEAD
-=======
 
 - name: Create directory
   file:
@@ -42,5 +40,3 @@
         privatekey_path: "{{ home_dir }}/.ssl/server.localhost.key"
         provider: selfsigned
   # End block
-
->>>>>>> nextcloud

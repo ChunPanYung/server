@@ -16,14 +16,9 @@
 
     - role: common
       tags: common
-<<<<<<< HEAD
-      vars:
-        home_dir: /home/server
-=======
 
     - role: internet
       tags: internet
->>>>>>> nextcloud
 
     - role: keychron
       tags: keychron

@@ -19,16 +19,12 @@
     - name: Allow http and ssh port
       community.general.ufw:
         rule: allow
-<<<<<<< HEAD
-        port: ssh
-=======
         port: "{{ item }}"
       loop:
         - ssh
         - http
         - https
         - mysql
->>>>>>> nextcloud
 
     - name: start docker.service
       ansible.builtin.service:
@@ -45,18 +41,11 @@
         name: nextcloud
         source: pull
   notify: restart-docker.service
-# end block
+  # end block
 
-<<<<<<< HEAD
-- name: Setup and enable nextcloud on startup
-  vars:
-    nextcloud_path: /etc/docker/nextcloud/
-    systemd_service_path: /etc/systemd/system/
-=======
 - name: Setup docker volumes mount point
   vars:
     docker_volume_path: "/var/lib/device/docker_volume"
->>>>>>> nextcloud
 
   block:
     - name: "Create directory: {{ docker_volume_path }}"
@@ -87,7 +76,6 @@
     systemd_service_path: /etc/systemd/system/
 
   block:
-
     - name: "Create directory for docker in {{ nextcloud_path }}"
       file:
         path: "{{ nextcloud_path }}"
