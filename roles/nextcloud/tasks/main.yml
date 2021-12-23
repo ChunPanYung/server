@@ -1,74 +1,15 @@
 ---
-- name: Install and enable Docker service and its libraries
-  block:
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: latest
+# nextcloud/tasks/
 
-    - name: Install Docker Compose
-      apt:
-        name: docker-compose
-        state: latest
-
-    - name: Install Docker SDK for Python
-      apt:
-        name: python3-docker
-        state: latest
-
-    - name: Allow http and ssh port
-      community.general.ufw:
-        rule: allow
-        port: "{{ item }}"
-      loop:
-        - ssh
-        - http
-        - https
-        - mysql
-
-    - name: start docker.service
-      ansible.builtin.service:
-        name: docker
-        enabled: true
-
-    - name: Pull alpine from Docker
-      community.docker.docker_image:
-        name: alpine
-        source: pull
-
-    - name: Pull Nextcloud from Docker
-      community.docker.docker_image:
-        name: nextcloud
-        source: pull
-  notify: restart-docker.service
-  # end block
-
-- name: Setup docker volumes mount point
-  vars:
-    docker_volume_path: "/var/lib/device/docker_volume"
-
-  block:
-    - name: "Create directory: {{ docker_volume_path }}"
-      file:
-        path: "{{ docker_volume_path }}"
-        state: directory
-
-    - name: "Change file permission on Docker Volumes directory"
-      ansible.builtin.file:
-        path: "{{ item }}"
-        mode: '1755'
-      loop:
-        - "{{ docker_volume_path }}"
-
-    - name: "Mount SD Card for storing docker volumes"
-      ansible.posix.mount:
-        path: "{{ docker_volume_path }}"
-        src: "UUID={{ docker_volume_device }}"
-        fstype: ext4
-        opts: noatime,auto,noexec,rw,sync
-        state: mounted
-
-# end block
+- name: Allow http and ssh port
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - ssh
+    - http
+    - https
+    - mysql
 
 - name: Setup and enable nextcloud on startup
   vars:
@@ -76,6 +17,11 @@
     systemd_service_path: /etc/systemd/system/
 
   block:
+    - name: Pull Nextcloud from Docker
+      community.docker.docker_image:
+        name: nextcloud
+        source: pull
+
     - name: "Create directory for docker in {{ nextcloud_path }}"
       file:
         path: "{{ nextcloud_path }}"
@@ -102,5 +48,3 @@
         name: nextcloud
         enabled: true
   notify: restart-nextcloud.service
-
-    # TODO: can't get docker-compose work -- doesn't reconize mariadb in compose file
