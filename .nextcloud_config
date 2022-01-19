@@ -1,3 +1,0 @@
- 
-sudo docker exec --user www-data 2cef2e5ba281 php occ config:system:get trusted_domains
-sudo docker exec --user www-data 2cef2e5ba281 php occ config:system:set trusted_domains 2 --value=192.168.8.178
