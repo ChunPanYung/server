@@ -24,29 +24,3 @@
 
   notify: restart-docker.service
   # end block
-
-- name: Setup docker volumes mount point
-  vars:
-    docker_volume_path: "/var/lib/device/docker_volume"
-
-  block:
-    - name: "Create directory: {{ docker_volume_path }}"
-      file:
-        path: "{{ docker_volume_path }}"
-        state: directory
-
-    - name: "Change file permission on Docker Volumes directory"
-      ansible.builtin.file:
-        path: "{{ item }}"
-        mode: '1755'
-      loop:
-        - "{{ docker_volume_path }}"
-
-    - name: "Mount SD Card for storing docker volumes"
-      ansible.posix.mount:
-        path: "{{ docker_volume_path }}"
-        src: "UUID={{ docker_volume_device }}"
-        fstype: ext4
-        opts: noatime,auto,noexec,rw,sync
-        state: mounted
-  # end block

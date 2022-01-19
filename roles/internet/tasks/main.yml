@@ -1,9 +1,0 @@
----
-# internet/main.yml
-- name: Clone a repo
-  ansible.builtin.git:
-    repo: https://github.com/aircrack-ng/rtl8812au.git
-    dest: /var/lib/git/rtl8812au/
-      # TODO: remove and install if there's changed to git repository
-      # Make hotspot
-      # change to eternet to shared internet connection

@@ -1,3 +1,4 @@
 hosts.yml
 ansible.cfg
 .env
+host_vars/

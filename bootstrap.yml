@@ -13,7 +13,6 @@
         upgrade_type: safe
 
   tasks:
-
     - name: Allow http and ssh port
       community.general.ufw:
         rule: allow

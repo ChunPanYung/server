@@ -5,6 +5,11 @@
     name: micro
     state: latest
 
+- name: Install the silver searcher
+  apt:
+    name: silversearcher-ag
+    state: latest
+
 - name: Change default editor to micro
   lineinfile:
     path: "{{ home_dir }}/.profile"

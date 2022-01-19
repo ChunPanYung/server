@@ -17,11 +17,18 @@
     - role: common
       tags: common
 
-    - role: internet
-      tags: internet
-
     - role: keychron
       tags: keychron
 
+    - role: docker
+      tags: docker
+
     - role: nextcloud
       tags: nextcloud
+
+    - role: docker-volume-backup
+      tags:
+        - docker-volume-backup
+        - never
+      vars:
+        backup_dir: "/media/microsd-{{ microsd_uuid[:5] }}"
