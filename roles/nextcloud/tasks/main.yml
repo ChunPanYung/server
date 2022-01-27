@@ -11,6 +11,35 @@
     - https
     - mysql
 
+- name: Create a self-signed certificate
+  vars:
+    ssl_path: /etc/ssl/docker
+
+  block:
+    - name: Create directory
+      file:
+        path: "{{ ssl_path }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy private key
+      ansible.builtin.copy:
+        src: .ssl/server.lan.key
+        dest: "{{ ssl_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy self-signed certificate
+      ansible.builtin.copy:
+        src: .ssl/nextcloud.lan.crt
+        dest: "{{ ssl_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+
 - name: Setup and enable nextcloud on startup
   vars:
     nextcloud_path: "{{ docker_path }}/nextcloud"
@@ -26,11 +55,17 @@
       file:
         path: "{{ nextcloud_path }}"
         state: directory
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: "Copy files to {{ nextcloud_path }}"
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ nextcloud_path }}"
+        owner: root
+        group: root
+        mode: '0644'
       loop:
         - .env
         - docker-compose.yml

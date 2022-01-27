@@ -13,5 +13,6 @@
   when: ansible_os_family == "Debian"
   register: update_info
 
-- debug:
+- name: apt output
+  debug:
     var: update_info.stdout_lines

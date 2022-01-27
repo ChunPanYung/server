@@ -26,9 +26,9 @@
     - role: nextcloud
       tags: nextcloud
 
-    - role: docker-volume-backup
+    - role: backup
       tags:
-        - docker-volume-backup
+        - backup
         - never
       vars:
         backup_dir: "/media/microsd-{{ microsd_uuid[:5] }}"

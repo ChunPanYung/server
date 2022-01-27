@@ -1,5 +1,5 @@
 ---
-# docker-volume-backup/tasks
+# backup/tasks
 # backup_dir: site.yml
 # docker_path, microsd_uuid: host_vars/gk41.yml
 
@@ -12,11 +12,17 @@
       file:
         path: "{{ ubuntu_path }}"
         state: directory
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: "Copy files to directory: {{ ubuntu_path }}"
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ ubuntu_path }}"
+        owner: root
+        group: root
+        mode: '0644'
       loop:
         - Dockerfile
 
@@ -33,6 +39,9 @@
       file:
         path: "{{ backup_dir }}"
         state: directory
+        owner: root
+        group: root
+        mode: '0666'
 
     - name: "Mount SD Card for storing backups"
       ansible.posix.mount:

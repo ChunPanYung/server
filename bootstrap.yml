@@ -1,6 +1,15 @@
 ---
 # Bootstrap server for future ansible runs
 # command: ansible-playbook --ask-pass --ask-become-pass bootstrap.yml
+- hosts: all  # no sudo required for following task
+  tasks:
+    - name: set authorized key for user, copying it from current user
+      authorized_key:
+        user: server
+        state: present
+        key: "{{ lookup('file', lookup('env', 'HOME') +
+             '/.ssh/id_ed25519.pub') }}"
+
 - hosts: all
   become: true
   vars_prompt:
@@ -13,19 +22,15 @@
         upgrade_type: safe
 
   tasks:
-    - name: Allow http and ssh port
-      community.general.ufw:
-        rule: allow
-        port: ssh
+    - name: Execute the following on Debian based OS
+      block:
+        - name: Allow http and ssh port
+          community.general.ufw:
+            rule: allow
+            port: ssh
 
-    - name: Setup ufw
-      community.general.ufw:
-        state: enabled
-
-- hosts: all  # no sudo required for following task
-  tasks:
-    - name: set authorized key for user, copying it from current user
-      authorized_key:
-        user: server
-        state: present
-        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+        - name: Setup ufw
+          community.general.ufw:
+            state: enabled
+      when: ansible_facts['os_family'] == 'Debian'
+...

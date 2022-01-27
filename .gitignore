@@ -2,3 +2,5 @@
 host_vars/
 ansible.cfg
 hosts.yml
+
+!.ansible-lint
