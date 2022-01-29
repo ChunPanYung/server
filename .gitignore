@@ -5,6 +5,7 @@ group_vars/
 vars/main.yml
 
 ansible.cfg
+hosts.ini
 hosts.yml
 
 !.ansible-lint
