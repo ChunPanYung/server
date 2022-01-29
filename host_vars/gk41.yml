@@ -1,5 +1,5 @@
 ---
 microsd_uuid: fa2de197-7a84-440d-87d5-298c278e30e7
 home_dir: /home/server
-docker_path: /etc/docker
+docker_path: /srv/git/dockers
 user_name: server

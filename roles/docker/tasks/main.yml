@@ -24,3 +24,10 @@
 
   notify: restart-docker.service
   # end block
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: https://github.com/ChunPanYung/dockers
+    dest: /srv/git/dockers
+    single_branch: true
+    version: main

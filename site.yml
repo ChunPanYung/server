@@ -20,9 +20,6 @@
     - role: keychron
       tags: keychron
 
-    - role: docker
-      tags: docker
-
     - role: nextcloud
       tags: nextcloud
 

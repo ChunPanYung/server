@@ -1,5 +1,5 @@
 ---
-# nextcloud/tasks/
+# roles/nextcloud/tasks/
 
 - name: Allow http and ssh port
   community.general.ufw:
@@ -13,7 +13,7 @@
 
 - name: Create a self-signed certificate
   vars:
-    ssl_path: /etc/ssl/docker
+    ssl_path: /etc/ssl/self-signed
 
   block:
     - name: Create directory
@@ -22,7 +22,7 @@
         state: directory
         owner: root
         group: root
-        mode: '0644'
+        mode: '0655'
 
     - name: Copy private key
       ansible.builtin.copy:
@@ -30,11 +30,11 @@
         dest: "{{ ssl_path }}"
         owner: root
         group: root
-        mode: '0644'
+        mode: '0600'
 
     - name: Copy self-signed certificate
       ansible.builtin.copy:
-        src: .ssl/nextcloud.lan.crt
+        src: .ssl/server.lan.crt
         dest: "{{ ssl_path }}"
         owner: root
         group: root
@@ -42,33 +42,32 @@
 
 - name: Setup and enable nextcloud on startup
   vars:
-    nextcloud_path: "{{ docker_path }}/nextcloud"
     systemd_service_path: /etc/systemd/system/
 
   block:
-    - name: Pull Nextcloud from Docker
+    - name: Build custom nextcloud image
       community.docker.docker_image:
-        name: nextcloud
-        source: pull
+        name: local/nextcloud:casc
+        build:
+          path: /srv/git/dockers/nextcloud
+          args:
+            EMAIL: "{{ EMAIL }}"
+            DOMAIN: "{{ DOMAIN }}"
+        source: build
+      register: output
 
-    - name: "Create directory for docker in {{ nextcloud_path }}"
-      file:
-        path: "{{ nextcloud_path }}"
-        state: directory
-        owner: root
-        group: root
-        mode: '0644'
+    - name: debug
+      ansible.builtin.debug:
+        msg: output
 
-    - name: "Copy files to {{ nextcloud_path }}"
+
+    - name: "Copy files to /srv/git/dockers/nextcloud"
       ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: "{{ nextcloud_path }}"
+        src: .env
+        dest: /srv/git/dockers/nextcloud
         owner: root
         group: root
         mode: '0644'
-      loop:
-        - .env
-        - docker-compose.yml
 
     - name: "Copy files to {{ systemd_service_path }}"
       ansible.builtin.copy:
@@ -83,3 +82,4 @@
         name: nextcloud
         enabled: true
   notify: restart-nextcloud.service
+...

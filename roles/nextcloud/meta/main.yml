@@ -1,0 +1,5 @@
+---
+# roles/nextcloud/meta/
+dependencies:
+  - role: docker
+...

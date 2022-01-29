@@ -5,7 +5,7 @@
 
 - name: Configure Ubuntu Image for backup
   vars:
-    ubuntu_path: "{{ docker_path }}/ubuntu"
+    ubuntu_path: "/srv/git/dockers/ubuntu"
 
   block:
     - name: "Create directory: {{ ubuntu_path }}"

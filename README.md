@@ -9,3 +9,7 @@ Using ansible to setup mini pc as home server
 
 1. Repository and System Update
 2. Setup Docker
+
+### TODO
+- `roles/os_update/meta/argument_specs.yml`: specify certain args needs to be passed
+- execute docker
