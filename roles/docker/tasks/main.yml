@@ -28,6 +28,6 @@
 - name: Git checkout
   ansible.builtin.git:
     repo: "{{ docker_repo }}"
-    dest: "{{ srv_docker }}"
+    dest: "{{ docker_path }}"
     single_branch: true
     version: main

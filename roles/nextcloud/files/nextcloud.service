@@ -4,7 +4,7 @@ Description=Enable docker/nextcloud on startup
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/docker-compose --env-file /srv/git/dockers/nextcloud/.env --file /srv/git/dockers/nextcloud/docker-compose.yml up --detach
+ExecStart=/usr/bin/docker-compose --file /srv/git/dockers/nextcloud/docker-compose.yml --env-file /srv/git/dockers/nextcloud/.env up --detach
 RemainAfterExit=true
 
 [Install]

@@ -1,5 +1,0 @@
----
-# roles/nextcloud/meta/
-dependencies:
-  - role: docker  # vars needed: git_docker
-...

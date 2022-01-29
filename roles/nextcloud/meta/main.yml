@@ -1,0 +1,17 @@
+---
+# roles/nextcloud/meta/
+dependencies:
+  - role: docker
+
+galaxy_info:
+  role_name: nextcloud
+  author: Chun Pan Yung
+  description: setup a nextcloud with docker with https functionality
+  license: GPLv3
+  min_ansible_version: 2.11
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 21.10
+...

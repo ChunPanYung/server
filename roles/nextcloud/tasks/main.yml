@@ -43,7 +43,7 @@
 - name: Setup and enable nextcloud on startup
   vars:
     systemd_service_path: /etc/systemd/system/
-    nextcloud_build_path: "{{ srv_docker }}/nextcloud"
+    nextcloud_build_path: "{{ docker_path }}/nextcloud"
 
   block:
     - name: Build custom nextcloud image
