@@ -1,18 +1,21 @@
 ---
-- name: update repo cache (debian based OS)
-  apt:
-    update_cache: true
-  changed_when: false  # not considered change when cache is updated
-  become: true
-  when: ansible_os_family == "Debian"
+- name: Update Debian based OS
+  block:
+  - name: update repo cache (debian based OS)
+    apt:
+      update_cache: true
+    changed_when: false  # not considered change when cache is updated
+    become: true
 
-- name: update packages and remove unused ones
-  apt:
-    upgrade: "{{ upgrade_type }}"
-    autoremove: true
-  when: ansible_os_family == "Debian"
-  register: update_info
+  - name: update packages and remove unused ones
+    apt:
+      upgrade: "{{ upgrade_type }}"
+      autoremove: true
+    when: ansible_os_family == "Debian"
+    register: update_info
 
-- name: apt output
-  debug:
-    var: update_info.stdout_lines
+  - name: apt output
+    debug:
+      var: update_info.stdout_lines
+  when: ansible_os_family == "Debian"
+...

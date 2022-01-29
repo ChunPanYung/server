@@ -1,0 +1,11 @@
+---
+# roles/docker/meta/
+argument_specs:
+  main:
+    short_description: setup docker package, location of build and compose path
+    options:
+      docker_repo:
+        type: "str"
+        required: true
+        description: >
+          Git repo that contains build and compose file for docker containers

@@ -19,8 +19,6 @@
 
   roles:
     - role: os_update
-      vars:
-        upgrade_type: safe
 
   tasks:
     - name: Execute the following on Debian based OS

@@ -43,16 +43,17 @@
 - name: Setup and enable nextcloud on startup
   vars:
     systemd_service_path: /etc/systemd/system/
+    nextcloud_build_path: "{{ srv_docker }}/nextcloud"
 
   block:
     - name: Build custom nextcloud image
       community.docker.docker_image:
         name: local/nextcloud:casc
         build:
-          path: /srv/git/dockers/nextcloud
+          path: "{{ nextcloud_build_path }}"
           args:
-            EMAIL: "{{ EMAIL }}"
-            DOMAIN: "{{ DOMAIN }}"
+            EMAIL: "{{ email }}"
+            DOMAIN: "{{ domain }}"
         source: build
       register: output
 
@@ -61,10 +62,10 @@
         msg: output
 
 
-    - name: "Copy files to /srv/git/dockers/nextcloud"
+    - name: "Copy files to {{ nextcloud_build_path }}"
       ansible.builtin.copy:
         src: .env
-        dest: /srv/git/dockers/nextcloud
+        dest: "{{ nextcloud_build_path }}"
         owner: root
         group: root
         mode: '0644'
