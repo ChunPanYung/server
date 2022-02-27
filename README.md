@@ -15,6 +15,5 @@ Using ansible to setup mini pc as home server
 define the following variables before you execute the playbook
 - `hosts`: `hostname`, `ansible_host`, `ansible_user`
 - `microsd_uuid`: media/storage for docker volume backup
-- `home_dir`: home directory for the user
 - `docker_path`: path that contains `docker-compose.yml`, `Dockerfile`, and `.env`
 - `docker_repo`: online git repository that used for build and compose docker containers

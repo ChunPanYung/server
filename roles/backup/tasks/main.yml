@@ -5,27 +5,9 @@
 
 - name: Configure Ubuntu Image for backup
   vars:
-    ubuntu_path: "/srv/git/dockers/ubuntu"
+    ubuntu_path: "{{ docker_path }}/ubuntu"
 
   block:
-    - name: "Create directory: {{ ubuntu_path }}"
-      file:
-        path: "{{ ubuntu_path }}"
-        state: directory
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: "Copy files to directory: {{ ubuntu_path }}"
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: "{{ ubuntu_path }}"
-        owner: root
-        group: root
-        mode: '0644'
-      loop:
-        - Dockerfile
-
     - name: build custom ubuntu image
       community.docker.docker_image:
         build:
@@ -41,7 +23,7 @@
         state: directory
         owner: root
         group: root
-        mode: '0666'
+        mode: '0655'
 
     - name: "Mount SD Card for storing backups"
       ansible.posix.mount:

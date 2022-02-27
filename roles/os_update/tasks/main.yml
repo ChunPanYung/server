@@ -11,11 +11,12 @@
     apt:
       upgrade: "{{ upgrade_type }}"
       autoremove: true
-    when: ansible_os_family == "Debian"
     register: update_info
+    changed_when: "'following' in update_info.stdout"
 
   - name: apt output
     debug:
-      var: update_info.stdout_lines
+      var: update_info.stdout_lines[4:]
+
   when: ansible_os_family == "Debian"
 ...
