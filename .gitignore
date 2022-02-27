@@ -1,13 +1,11 @@
-.*
+.ssl/
+
+.env
+
 host_vars/
 group_vars/
-
-vars/main.yml
+tests/
+vars/
 
 ansible.cfg
-hosts.ini
 hosts.yml
-post_setup.sh
-
-!.ansible-lint
-!.gitignore
