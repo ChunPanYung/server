@@ -6,6 +6,7 @@
       - vim
       - silversearcher-ag
       - fd-find
+      - f2fs-tools
 
 - name: Change default editor to vim
   lineinfile:

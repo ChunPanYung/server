@@ -1,3 +1,0 @@
----
-# role: samba/defaults/
-sambashare: /srv/samba
