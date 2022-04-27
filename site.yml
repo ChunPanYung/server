@@ -23,9 +23,5 @@
     - role: nextcloud
       tags: nextcloud
 
-    - role: backup
-      tags:
-        - backup
-        - never
-      vars:
-        backup_dir: "/media/microsd-{{ microsd_uuid[:5] }}"
+    - role: jenkins
+      tags: jenkins

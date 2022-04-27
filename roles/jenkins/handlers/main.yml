@@ -1,0 +1,6 @@
+---
+# roles/jenkins/handlers/
+- name: restart-jenkins.service
+  ansible.builtin.service:
+    name: jenkins
+    state: restarted

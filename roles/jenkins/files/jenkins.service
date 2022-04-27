@@ -1,0 +1,11 @@
+# /etc/systemd/system
+[Unit]
+Description=Enable docker/jenkins on startup
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/docker-compose --file /srv/git/dockers/jenkins/docker-compose.yml up --detach
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

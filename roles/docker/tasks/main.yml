@@ -1,5 +1,12 @@
 ---
-# docker/tasks
+# docker/tasks/
+
+- name: add user to docker group (enable running docker without sudo)
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+
 - name: Install and enable Docker service and its libraries
   block:
     - name: Install Docker

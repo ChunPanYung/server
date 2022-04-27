@@ -1,0 +1,38 @@
+---
+# roles/jenkins/tasks/
+- name: Allow http and ssh port
+  community.general.ufw:
+    rule: allow
+    port: http
+
+- name: Setup and enable jenkins on startup
+  vars:
+    systemd_service_path: /etc/systemd/system/
+
+  block:
+    - name: Build custom jenkins image
+      community.docker.docker_image:
+        name: local/jenkins:casc
+        source: build
+        build:
+          path: "{{ docker_path }}/jenkins"
+          pull: true
+      register: output
+
+    - name: "Copy files to {{ systemd_service_path }}"
+      ansible.builtin.copy:
+        src: jenkins.service
+        dest: "{{ systemd_service_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: debug
+      ansible.builtin.debug:
+        msg: output
+
+    - name: Enable jenkins.service
+      ansible.builtin.service:
+        name: jenkins
+        enabled: true
+  notify: restart-jenkins.service

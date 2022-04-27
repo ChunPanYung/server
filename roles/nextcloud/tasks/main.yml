@@ -6,7 +6,6 @@
     rule: allow
     port: "{{ item }}"
   loop:  # service names: /etc/services
-    - ssh
     - http
     - https
     - mysql
@@ -46,11 +45,20 @@
     nextcloud_build_path: "{{ docker_path }}/nextcloud"
 
   block:
+    - name: "Copy files to {{ nextcloud_build_path }}"
+      ansible.builtin.copy:
+        src: .env
+        dest: "{{ nextcloud_build_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+
     - name: Build custom nextcloud image
       community.docker.docker_image:
         name: local/nextcloud:casc
         build:
           path: "{{ nextcloud_build_path }}"
+          pull: true
           args:
             EMAIL: "{{ email }}"
             DOMAIN: "{{ domain }}"
@@ -60,15 +68,6 @@
     - name: debug
       ansible.builtin.debug:
         msg: output
-
-
-    - name: "Copy files to {{ nextcloud_build_path }}"
-      ansible.builtin.copy:
-        src: .env
-        dest: "{{ nextcloud_build_path }}"
-        owner: root
-        group: root
-        mode: '0644'
 
     - name: "Copy files to {{ systemd_service_path }}"
       ansible.builtin.copy:
